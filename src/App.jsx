@@ -21,7 +21,6 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
 
-
 function App() {
   const [ guitarModel, setGuitarModel] = useState('')
   const [bodytype, setBodytype] = useState('')
@@ -32,12 +31,17 @@ function App() {
   const [userRole, setUserRole] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [items, setItems] = useState([])
+  const [filter, setFilter] = useState('all')
+  const [selected, setSelected] = useState('')
+  const [activeItem, setActiveItem] = useState('')
 
   const columns = [
     { accessorKey: 'guitarModel', header: 'Guitar Model'},
     { accessorKey: 'bodytype', header: 'Body Type'},
     { accessorKey: 'brandName', header: 'Brand Name'},
     { accessorKey: 'stockQuantity', header: 'Stock Quantity'},
+    { accessorKey: 'userRole', header: 'User Role'},
+    { accessorKey: 'manufacturerName', header: 'Manufacturer Name'},
   ]
 
   const table = useReactTable({
@@ -47,6 +51,10 @@ function App() {
     getPaginationRowModel: getPaginationRowModel(),
     initialState: { pagination: { pageSize: 5 } }
   })
+
+  useEffect(() =>{
+      setActiveItem(selected)
+  }, [selected])
 
 
   const submit = () => {
@@ -77,7 +85,7 @@ function App() {
     }
 
     else{
-      setItems([...items, { guitarModel, bodytype, brandName, stockQuantity }])
+      setItems([...items, { guitarModel, bodytype, brandName, stockQuantity, userRole, manufacturerName }])
       setSubmitted(true)
     }
 
@@ -89,22 +97,37 @@ if (submitted == true){
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 40 }}>
         <div style={{border:'1px solid gray'}}>
 
-            <TableContainer component={Paper} style={{ width: '100%' }}>
+          <select value={filter} onChange={(e)=> setFilter(e.target.value)}>
+            <option value='all'>All</option>
+            <option value='merchant'>Merchant</option>
+            <option value='consumer'>Consumerr</option>
+          </select>
+
+            <TableContainer component={Paper} style={{width:'100%'}}>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{ fontWeight: 'bold' }}>Guitar Model</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }}>Body Type</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }}>Brand Name</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }}>Stock Quantity</TableCell>
+                    <TableCell style={{fontWeight:'bold'}}>Guitar Model</TableCell>
+                    <TableCell style={{fontWeight:'bold'}}>Body Type</TableCell>
+                    <TableCell style={{fontWeight:'bold'}}>Brand Name</TableCell>
+                    <TableCell style={{fontWeight:'bold'}}>Stock Quantity</TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   {table.getRowModel().rows.map((row) => {
                     const item = row.original
+
+                    if(filter === 'all'){
+
+                    }
+
+                    else if (item.userRole !== filter){
+                      return null
+                    }
+
                     return (
-                      <TableRow key={row.id}>
+                      <TableRow key={row.id} onClick={() => setSelected(item)} hover>
                         <TableCell>{item.guitarModel}</TableCell>
                         <TableCell>{item.bodytype}</TableCell>
                         <TableCell>{item.brandName}</TableCell>
@@ -116,19 +139,37 @@ if (submitted == true){
               </Table>
             </TableContainer>
 
-            <br/>
+          <br/>
 
         <Button variant='outlined' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                Previous
+          Previous
         </Button>
 
         <Button variant='outlined' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                Next
+          Next
         </Button>
 
         </div>
 
-          
+
+        {activeItem && (
+            <div>
+                <div> 
+                    <Typography variant='h5'>Active Item Profile</Typography>
+                    <br/>
+
+                    <Typography><strong>Model:</strong> {activeItem.guitarModel}</Typography>
+                    <Typography><strong>Body Type:</strong> {activeItem.bodytype}</Typography>
+                    <Typography><strong>Brand Name:</strong> {activeItem.brandName}</Typography>
+                    <Typography><strong>Stock Quantity:</strong> {activeItem.stockQuantity}</Typography>
+                    <Typography><strong>Manfacturer:</strong> {activeItem.manufacturerName}</Typography>
+                    <Typography><strong>Role:</strong> {activeItem.userRole}</Typography>
+
+                </div>
+            </div>
+          )}
+
+    
           <br/><br/>
 
           <Button variant='contained' onClick={()=>setSubmitted(false)}>
@@ -210,8 +251,5 @@ return (
 </div>
 )
 
-
-
 }
-
 export default App
