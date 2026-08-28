@@ -19,6 +19,36 @@ function App() {
   const [errorMes, setErrorMes] = useState('')
   const [manufacturerName, setManufacturerName] = useState('')
   const [userRole, setUserRole] = useState('')
+
+  const submit = () => {
+
+    if(guitarModel =="" || bodytype =="" || brandName =="" || stockQuantity=="" || manufacturerName =="" || userRole ==""){
+      setErrorMes("Please Fill Up All Fields")
+      return
+    }
+
+    if(guitarModel.length < 3){
+      setErrorMes("Guitar Model must be atleast 3 characters")
+      return
+    }
+
+    if(brandName.length < 3){
+      setErrorMes("Brand Name must be atleast 3 characters")
+      return
+    }
+
+    if(manufacturerName.length < 3){
+      setErrorMes("Manufacturer Name must be atleast 3 characters")
+      return
+    }
+
+    if(stockQuantity < 1 || stockQuantity > 100){
+      setErrorMes("Stock Quantity Should be 1-100")
+      return
+    }
+
+  }
+
  
   return (
 <div style={{ display: 'flex', justifyContent: 'center',  alignItems: 'center', minHeight: '100vh'}}>
@@ -33,12 +63,13 @@ function App() {
         <br/><br/>
 
       
-        <FormControl fullWidth>
+        <FormControl fullWidth >
           <InputLabel id="demo-simple-select-label">Body Type</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={bodytype}
+            style={{textAlign:'start'}}
             label="Body Type" onChange={(e) => setBodytype(e.target.value)}>
 
             <MenuItem value="electric">Electric</MenuItem>
@@ -76,12 +107,12 @@ function App() {
             <FormControlLabel value="consumer" control={<Radio />} label="Consumer" />
           </RadioGroup>
         </FormControl>
-        <br/><br/>
+        <br/>
 
         {errorMes && <Typography color="error">{errorMes}</Typography>}
         <br/>
 
-        <Button variant='contained' size='medium' fullWidth>
+        <Button variant='contained' size='medium' fullWidth onClick={submit}>
             Submit
         </Button>
     </div>
