@@ -6,7 +6,10 @@ import Select from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-
+import FormLabel from '@mui/material/FormLabel' 
+import FormControlLabel from '@mui/material/FormControlLabel'
+import RadioGroup from '@mui/material/RadioGroup'
+import Radio from '@mui/material/Radio'
 
 function App() {
   const [ guitarModel, setGuitarModel] = useState('')
@@ -14,20 +17,23 @@ function App() {
   const [brandName, setBrandName] = useState('')
   const [stockQuantity, setStockQuantity ] = useState(1)
   const [errorMes, setErrorMes] = useState('')
+  const [manufacturerName, setManufacturerName] = useState('')
+  const [userRole, setUserRole] = useState('')
  
   return (
-    <div>
+<div style={{ display: 'flex', justifyContent: 'center',  alignItems: 'center', minHeight: '100vh'}}>
+    <div style={{ padding:30, boxShadow:'0 0 10px gray', width:330, borderRadius:8, textAlign:'center' }}>
         <Typography variant='h5'>
             Guitar Store & Inventory Manager
         </Typography>
         <br/>
 
-        <TextField label='Guitar Model' variant='outlined' value={guitarModel}
+        <TextField label='Guitar Model' variant='outlined' value={guitarModel} fullWidth
         onChange={(e) => setGuitarModel(e.target.value)}/>
         <br/><br/>
 
       
-        <FormControl sx={{ width: 224 }}>
+        <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Body Type</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -44,7 +50,7 @@ function App() {
 
         <br/><br/>
 
-        <TextField label='Brand Name' variant='outlined'  value={brandName}
+        <TextField label='Brand Name' variant='outlined'  value={brandName} fullWidth
         onChange={(e) => setBrandName(e.target.value)}/>
         <br/><br/>
 
@@ -52,21 +58,36 @@ function App() {
         <TextField label='Stock Quantity (1-100)'
           type='number'
           inputProps={{ min: 1, max: 100 }}
-          sx={{ width: 224 }}
-           value={stockQuantity}
-           onChange={(e) => setStockQuantity(e.target.value)}
+          fullWidth
+          value={stockQuantity}
+          onChange={(e) => setStockQuantity(e.target.value)}
         />
 
         <br/><br/>
 
-        {errorMes && <label color="error">{errorMes}</label>}
+        <TextField label='Manufacturer Name' variant='outlined'  value={manufacturerName} fullWidth
+        onChange={(e) => setManufacturerName(e.target.value)}/>
+        <br/><br/>
+
+        <FormControl style={{textAlign:'start'}} fullWidth>
+          <FormLabel>User Role</FormLabel>
+          <RadioGroup row onChange={(e) => setUserRole(e.target.value)} value={userRole}>
+            <FormControlLabel value="merchant" control={<Radio />} label="Merchant" />
+            <FormControlLabel value="consumer" control={<Radio />} label="Consumer" />
+          </RadioGroup>
+        </FormControl>
+        <br/><br/>
+
+        {errorMes && <Typography color="error">{errorMes}</Typography>}
         <br/>
 
-        <Button variant='contained'>
+        <Button variant='contained' size='medium' fullWidth>
             Submit
         </Button>
-
     </div>
+
+
+</div>
   )
 }
 
