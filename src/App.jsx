@@ -91,17 +91,20 @@ function App() {
 
   }
 
-
 if (submitted == true){
   return(
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 40 }}>
-        <div style={{border:'1px solid gray'}}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor:'#2a57aa', minHeight:'100hv' }}>
+        <div style={{  backgroundColor:'#ffffff', width:'100%', minHeight:'400px'}}>
+
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'10px',}}>
+          <Typography variant='h5'>Registry Table</Typography>
 
           <select value={filter} onChange={(e)=> setFilter(e.target.value)}>
             <option value='all'>All</option>
             <option value='merchant'>Merchant</option>
             <option value='consumer'>Consumerr</option>
           </select>
+        </div>
 
             <TableContainer component={Paper} style={{width:'100%'}}>
               <Table>
@@ -140,42 +143,41 @@ if (submitted == true){
             </TableContainer>
 
           <br/>
-
-        <Button variant='outlined' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-          Previous
-        </Button>
-
-        <Button variant='outlined' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          Next
-        </Button>
-
         </div>
 
+        <div style={{backgroundColor:'#ffffff', width:'100%', display:'flex', justifyContent: 'center', padding:'5px'}}>
+          <Button variant='outlined' onClick={() => table.previousPage()}>
+            Previous
+          </Button>
+
+          <Button variant='outlined' onClick={() => table.nextPage()} >
+            Next
+          </Button>
+        </div>
+
+        <br/>
 
         {activeItem && (
             <div>
-                <div> 
-                    <Typography variant='h5'>Active Item Profile</Typography>
+                <div style={{border:'1px solid gray', padding:'20px', borderRadius:'8px', backgroundColor:'#ffffff', width:'360px'}}> 
+                    <Typography variant='h5' style={{textAlign:'center'}}>Active Item Profile</Typography>
                     <br/>
-
-                    <Typography><strong>Model:</strong> {activeItem.guitarModel}</Typography>
-                    <Typography><strong>Body Type:</strong> {activeItem.bodytype}</Typography>
-                    <Typography><strong>Brand Name:</strong> {activeItem.brandName}</Typography>
-                    <Typography><strong>Stock Quantity:</strong> {activeItem.stockQuantity}</Typography>
-                    <Typography><strong>Manfacturer:</strong> {activeItem.manufacturerName}</Typography>
-                    <Typography><strong>Role:</strong> {activeItem.userRole}</Typography>
+                    <Typography style={{display:'flex', justifyContent:'space-between'}}><strong>Model:</strong> {activeItem.guitarModel}</Typography>
+                    <Typography style={{display:'flex', justifyContent:'space-between'}}><strong>Body Type:</strong> {activeItem.bodytype}</Typography>
+                    <Typography style={{display:'flex', justifyContent:'space-between'}}><strong>Brand Name:</strong> {activeItem.brandName}</Typography>
+                    <Typography style={{display:'flex', justifyContent:'space-between'}}><strong>Stock Quantity:</strong> {activeItem.stockQuantity}</Typography>
+                    <Typography style={{display:'flex', justifyContent:'space-between'}}><strong>Manfacturer:</strong> {activeItem.manufacturerName}</Typography>
+                    <Typography style={{display:'flex', justifyContent:'space-between'}}><strong>Role:</strong> {activeItem.userRole}</Typography>
 
                 </div>
             </div>
           )}
 
-    
           <br/><br/>
 
-          <Button variant='contained' onClick={()=>setSubmitted(false)}>
+          <Button variant='contained' size='large' color='warning' onClick={()=>setSubmitted(false)}>
                 Back to Form
           </Button>
-
 
     </div>
   )
@@ -183,15 +185,15 @@ if (submitted == true){
 
  
 return (
-<div style={{ display: 'flex', justifyContent: 'center',  alignItems: 'center', minHeight: '100vh'}}>
-    <div style={{ padding:30, boxShadow:'0 0 10px gray', width:330, borderRadius:8, textAlign:'center' }}>
+<div style={{ display: 'flex', justifyContent: 'center',  alignItems: 'center', minHeight: '100vh', backgroundColor:'#2a57aa'}}>
+    <div style={{ padding:30, boxShadow:'0 0 10px black', width:330, borderRadius:8, textAlign:'center',  backgroundColor:'#ffffff' }}>
         <Typography variant='h5'>
             Guitar Store & Inventory Manager
         </Typography>
         <br/>
 
         <TextField label='Guitar Model' variant='outlined' value={guitarModel} fullWidth
-        onChange={(e) => setGuitarModel(e.target.value)}/>
+        onChange={(e) => setGuitarModel(e.target.value)} />
         <br/><br/>
 
       
