@@ -9,16 +9,21 @@ import FormControl from '@mui/material/FormControl'
 
 
 function App() {
-
+  const [ guitarModel, setGuitarModel] = useState('')
   const [bodytype, setBodytype] = useState('')
+  const [brandName, setBrandName] = useState('')
+  const [stockQuantity, setStockQuantity ] = useState(1)
+  const [errorMes, setErrorMes] = useState('')
  
   return (
     <div>
         <Typography variant='h5'>
             Guitar Store & Inventory Manager
         </Typography>
+        <br/>
 
-        <TextField label='Guitar Model' variant='outlined'/>
+        <TextField label='Guitar Model' variant='outlined' value={guitarModel}
+        onChange={(e) => setGuitarModel(e.target.value)}/>
         <br/><br/>
 
       
@@ -39,7 +44,8 @@ function App() {
 
         <br/><br/>
 
-        <TextField label='Brand Name' variant='outlined'/>
+        <TextField label='Brand Name' variant='outlined'  value={brandName}
+        onChange={(e) => setBrandName(e.target.value)}/>
         <br/><br/>
 
 
@@ -47,9 +53,14 @@ function App() {
           type='number'
           inputProps={{ min: 1, max: 100 }}
           sx={{ width: 224 }}
+           value={stockQuantity}
+           onChange={(e) => setStockQuantity(e.target.value)}
         />
 
         <br/><br/>
+
+        {errorMes && <label color="error">{errorMes}</label>}
+        <br/>
 
         <Button variant='contained'>
             Submit
