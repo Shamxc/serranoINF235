@@ -10,6 +10,10 @@ import FormLabel from '@mui/material/FormLabel'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import RadioGroup from '@mui/material/RadioGroup'
 import Radio from '@mui/material/Radio'
+import { useReactTable } from '@tanstack/react-table'
+import { getCoreRowModel } from '@tanstack/react-table'
+import { getPaginationRowModel } from '@tanstack/react-table'
+
 
 function App() {
   const [ guitarModel, setGuitarModel] = useState('')
@@ -19,6 +23,24 @@ function App() {
   const [errorMes, setErrorMes] = useState('')
   const [manufacturerName, setManufacturerName] = useState('')
   const [userRole, setUserRole] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [items, setItems] = useState([])
+
+  const columns = [
+    { accessorKey: 'guitarModel', header: 'Guitar Model'},
+    { accessorKey: 'bodytype', header: 'Body Type'},
+    { accessorKey: 'brandName', header: 'Brand Name'},
+    { accessorKey: 'stockQuantity', header: 'Stock Quantity'},
+  ]
+
+  const table = useReactTable({
+    data:items,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: { pagination: { pageSize: 5 } }
+  })
+
 
   const submit = () => {
 
@@ -47,10 +69,72 @@ function App() {
       return
     }
 
+    else{
+      setItems([...items, { guitarModel, bodytype, brandName, stockQuantity }])
+      setSubmitted(true)
+    }
+
   }
 
+
+
+if (submitted == true){
+  return(
+    <div>
+        <div border = '1'>
+
+          <table border='1' cellPadding='6'>
+
+            <thead>
+              <tr>
+                <th>Guitar Model</th>
+                <th>Body Type</th>
+                <th>Brand Name</th>
+                <th>Stock Quantity</th>
+              </tr>
+            </thead>
+
+            <tbody>
+                {table.getRowModel().rows.map((row)=>{
+                  const item = row.original
+                  return(
+                    <tr key={row.id}>
+                      <td>{item.guitarModel}</td>
+                      <td>{item.bodytype}</td>
+                      <td>{item.brandName}</td>
+                      <td>{item.stockQuantity}</td>
+                    </tr>
+                  )
+                })}
+            </tbody>
+          </table>
+
+            <br/>
+
+        <Button variant='outlined' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                Previous
+        </Button>
+
+        <Button variant='outlined' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                Next
+        </Button>
+
+        </div>
+
+          
+          <br/><br/>
+
+          <Button variant='contained' onClick={()=>setSubmitted(false)}>
+                Back to Form
+          </Button>
+
+
+    </div>
+  )
+}
+
  
-  return (
+return (
 <div style={{ display: 'flex', justifyContent: 'center',  alignItems: 'center', minHeight: '100vh'}}>
     <div style={{ padding:30, boxShadow:'0 0 10px gray', width:330, borderRadius:8, textAlign:'center' }}>
         <Typography variant='h5'>
@@ -116,10 +200,11 @@ function App() {
             Submit
         </Button>
     </div>
-
-
 </div>
-  )
+)
+
+
+
 }
 
 export default App
