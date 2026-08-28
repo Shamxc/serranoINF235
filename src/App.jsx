@@ -13,6 +13,13 @@ import Radio from '@mui/material/Radio'
 import { useReactTable } from '@tanstack/react-table'
 import { getCoreRowModel } from '@tanstack/react-table'
 import { getPaginationRowModel } from '@tanstack/react-table'
+import Table from '@mui/material/Table'
+import TableHead from '@mui/material/TableHead'
+import TableBody from '@mui/material/TableBody'
+import TableRow from '@mui/material/TableRow'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import Paper from '@mui/material/Paper'
 
 
 function App() {
@@ -77,37 +84,37 @@ function App() {
   }
 
 
-
 if (submitted == true){
   return(
-    <div>
-        <div border = '1'>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 40 }}>
+        <div style={{border:'1px solid gray'}}>
 
-          <table border='1' cellPadding='6'>
+            <TableContainer component={Paper} style={{ width: '100%' }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: 'bold' }}>Guitar Model</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Body Type</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Brand Name</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Stock Quantity</TableCell>
+                  </TableRow>
+                </TableHead>
 
-            <thead>
-              <tr>
-                <th>Guitar Model</th>
-                <th>Body Type</th>
-                <th>Brand Name</th>
-                <th>Stock Quantity</th>
-              </tr>
-            </thead>
-
-            <tbody>
-                {table.getRowModel().rows.map((row)=>{
-                  const item = row.original
-                  return(
-                    <tr key={row.id}>
-                      <td>{item.guitarModel}</td>
-                      <td>{item.bodytype}</td>
-                      <td>{item.brandName}</td>
-                      <td>{item.stockQuantity}</td>
-                    </tr>
-                  )
-                })}
-            </tbody>
-          </table>
+                <TableBody>
+                  {table.getRowModel().rows.map((row) => {
+                    const item = row.original
+                    return (
+                      <TableRow key={row.id}>
+                        <TableCell>{item.guitarModel}</TableCell>
+                        <TableCell>{item.bodytype}</TableCell>
+                        <TableCell>{item.brandName}</TableCell>
+                        <TableCell>{item.stockQuantity}</TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
             <br/>
 
